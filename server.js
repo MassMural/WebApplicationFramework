@@ -35,6 +35,54 @@ app.get("/getUser", function(req, res) {
     userLib.get(req, res, db);
 });
 
+app.get("/getPictures", function(req, res) {
+    var info = req.query;
+        
+    db.collection("pics").find({user: info.user}).toArray(function(err, result) {
+        if (err) {
+            res.send("[]")
+        }
+        else {
+            res.send(JSON.stringify(result));
+        }
+    });
+});
+
+app.get("/savePicture", function(req, res){
+    var info = req.query;
+    console.log(info);
+    // db.collection("pics").findOne({id: info.id}, function(err, result) {
+    //     if (result) {
+    //         var temp = Object.keys(info);
+    //         var key;
+
+    //         for (var t = 0; t < temp.length; t++) {
+    //             key = temp[t];
+    //             result[key] = info[key];
+    //         }
+                                  
+    //         db.collection("pics").save(result, function(err2) {
+    //             if (err2) {
+    //                 res.send("0");
+    //             }
+    //             else {
+    //                 res.send("1");
+    //             }   
+    //         });
+    //     }
+    //     else {
+            db.collection("pics").insert(info, function(err3, r3) {
+                if (err3) {
+                    res.send("0");
+                }
+                else {
+                    res.send("1");
+                }   
+            });
+        //}
+     });
+// });
+
 function readURL(url, cb) {
     var data = "";
     var protocol = url.split("://")[0];

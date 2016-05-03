@@ -41,7 +41,7 @@
 
     <style>
       html, body {
-        height: 100%;
+        height: 50%;
         margin: 0;
         padding: 0;
       }
@@ -139,6 +139,7 @@
     var longitude = 150.312; 
     var heading = 270; 
     var pitch = 0; 
+    var panoID = 0; 
       function initPano() {
         var panorama = new google.maps.StreetViewPanorama(
             document.getElementById('pano'), {
@@ -153,6 +154,9 @@
         panorama.addListener('pano_changed', function() {
             var panoCell = document.getElementById('pano-cell');
             panoCell.innerHTML = panorama.getPano();
+            panoID = panorama.getPano();
+            console.log(panoID);
+
         });
 
         panorama.addListener('links_changed', function() {
@@ -351,6 +355,18 @@ var showSignUp = function() {
             initPano(); 
         });
       }
+      var save = function(){
+    
+           // var date = moment().format('L');
+             var url = "./savePicture?id= " +  panoID + "&lat=" + latitude + "&long=" + longitude + "&user=" + user + "&heading=" + heading 
+             + "&pitch=" + pitch;
+             loadURL(url, function(data){
+           //    loadMySubs(); 
+           //    document.getElementById("currFeedWrapper").innerHTML = "";
+           Ply.dialog("alert", "Object Saved");
+         });
+  //http://localhost:8080/addOrEditSub?id=0&link=url&date=0&user=test
+      }
     </script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
@@ -371,6 +387,7 @@ var showSignUp = function() {
       <div style="float: left; padding: 10px"><a href="javascript:GetLatLong()"  class="text">Submit</a></div>
        <input type='checkbox' id='showMural' onchange='showMuralCh()' style="float: left; " > <label for='showMural' style="float: left;" class= "text"> Draw</label>
 	   <div style="float: right; padding: 10px"><a href="profile.html" target="_self" class="text">Profile</a></div>
+     <div style="float: right; padding: 10px"><a id="poop"   href="javascript:save()" class="text" >Save </a></div>
         <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:showLoginModal()" class="text">Login</a></div>
         <div style="float: right; padding: 10px"><a id="signUpButton"   href="javascript:showSignUp()" class="text" >Sign Up </a></div>
         <!--  <div text-align= "center;" display="table-cell;" vertical-align= "middle;" class="text;">Mass Mural</a></div> -->
