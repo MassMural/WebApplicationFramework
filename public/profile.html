@@ -46,7 +46,7 @@
         padding: 0;
       }
       #map {
-        height: 50%;
+        height: 100%;
       }
       a:link {
       text-decoration: none; 
@@ -124,31 +124,32 @@
         font-family: verdana;
 		top: 5%;
 	  }
-	  
+	 /* 
 	  #myCanvas
 	  {
 	  	position: absolute;
+      width: 1000px;
+      height: 500px;
 	    left: 50%;
       top: 40%;
 	  	margin-right: -50%;
 	  	transform: translate(-50%, -50%);
 	  	border:1px solid #000000;
 	  	background: white;	
-	  }
+	  }*/
     </style>
   </head>
   <body>
     
     </script>
     <script>
-	function start(){loadPics(); panorama.setVisible(true);}
+	function start(){loadPics();}
    var user = "";
    var latitude = -33.732; 
    var longitude = 150.312; 
    var heading = 270; 
    var pitch = 0; 
    var panoID = 0; 
-    var panorama;
 
 // heading:"26.859838573757504"
 // id: " q8L4NFDumyPQba7qAMUxgg"
@@ -157,26 +158,26 @@
 // pitch:"-0.5586640578842195"
 // user:"moo"
   function loadPics() {
-        var url = "./getPictures?user=eee"; 
+        var url = "./getPictures?user=mmm"; 
         loadURL(url, function(data){
           var myPics = JSON.parse(data);
            console.log(myPics);
-           console.log("PanoID: " + myPics[0].id);
-           console.log("lat: " + myPics[0].lat);
-           console.log("long: " + myPics[0].long);
-           console.log("heading: " + myPics[0].heading);
-           console.log("pitch: " + myPics[0].pitch);
-
-            user = "moo";
-            latitude = myPics[0].lat; 
-            longitude = myPics[0].long; 
-            heading = myPics[0].heading; 
-            pitch = myPics[0].pitch; 
-            panoID = myPics[0].id; 
+            // user = "moo";
+             latitude = parseFloat(myPics[0].lat); 
+             longitude = parseFloat(myPics[0].long); 
+             heading = parseFloat(myPics[0].heading); 
+             pitch = parseFloat(myPics[0].pitch); 
+             panoID = myPics[0].id; 
         }); 
     }
       function initPano() {
-        panorama = new google.maps.StreetViewPanorama(
+        console.log("PanoID: " + panoID);
+           console.log("lat: " + latitude);
+           console.log("long: " + longitude);
+           console.log("heading: " + heading);
+           console.log("pitch: " + pitch);
+
+        var panorama = new google.maps.StreetViewPanorama(
             document.getElementById('pano'), {
               position: {lat: latitude, lng: longitude},
               pov: {
@@ -191,10 +192,13 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
         async defer>
     </script>
+    <div id="pano"></div>
     <body onload='start()' style="background-size:contain; background-repeat: no-repeat; background-position: center; " background="img/map.jpg">
 
     <div id="loginBar" background="img/background.jpg">
+       <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:initPano()" class="text">POOOP</a></div>
 	   <div style="float: right; padding: 10px"><a href="index.html" target="_self" class="text">Home</a></div>
+
         <!--  <div text-align= "center;" display="table-cell;" vertical-align= "middle;" class="text;">Mass Mural</a></div> -->
     </div>
      <h1 text-align= "center;" class="text" id="header">Profile</h1></br></br>
