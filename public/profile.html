@@ -145,11 +145,14 @@
           var myPics = JSON.parse(data);
            console.log(myPics);
             // user = "moo";
-             latitude = parseFloat(myPics[0].lat); 
-             longitude = parseFloat(myPics[0].long); 
-             heading = parseFloat(myPics[0].heading); 
-             pitch = parseFloat(myPics[0].pitch); 
-             panoID = myPics[0].id; 
+			for (var i = 0; i < myPics.length; i++){
+             latitude = parseFloat(myPics[i].lat); 
+             longitude = parseFloat(myPics[i].long); 
+             heading = parseFloat(myPics[i].heading); 
+             pitch = parseFloat(myPics[i].pitch); 
+             panoID = myPics[i].id; 
+			 $('<div id="pano"></div>').prependTo($('#imageHolder'));
+		 }
         }); 
     }
       function initPano() {
@@ -160,14 +163,15 @@
            console.log("pitch: " + pitch);
 
         var panorama = new google.maps.StreetViewPanorama(
-            document.getElementById('pano'), {
+			$("#pano").each(
+            document.getElementById(this), {
               position: {lat: latitude, lng: longitude},
               pov: {
                 heading: heading,
                 pitch: pitch
               },
               visible: true
-        });
+        }));
       }
     </script>
     <script
@@ -186,11 +190,7 @@
      <h1 text-align= "center;" class="text" id="header">Profile</h1>
 	 <h4 id="header" class"text" style="top: 10%; padding: 50px">Your Pictures</h4>
 </div>
-<div style="text-align: center;">
-     <div id="pano"></div>
- 	<div id="pano"></div>
-     <div id="pano"></div>
- 	<div id="pano"></div>
+<div id="imageHolder" style="text-align: center;">
 </div>
 	 <!-- <canvas id="pano" width="00" height="250"></br></br></br> -->
   </body>
