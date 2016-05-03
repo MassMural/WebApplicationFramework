@@ -84,7 +84,7 @@
 	padding: 10px 20px;
 	font-size: 18px;
 	color:white;
-	background-color: #49054B;
+	background-color: #add9dd;
 	border-radius: 2px 2px 0 0;
 }
 
@@ -121,7 +121,7 @@
 	outline: 0;
 	padding: 5px 20px;
 	box-shadow: 0 1px 1px rgba(0,0,0,.2);
-	background-color: #49054B;
+	background-color: #add9dd;
 	border-radius: 3px;
 	font-size: 18px;
 }
@@ -131,7 +131,7 @@
 }
 
 .ply-cancel {
-	background-color: #b2b2b2;
+	background-color: #add9dd;
 }
 	.ply-ok:focus,
 	.ply-cancel:focus {
@@ -162,7 +162,7 @@
 	}
 
 	.ply-input:focus {
-		border-color: #49054B;
+		border-color: #add9dd;
 	}
 
 
