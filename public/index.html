@@ -116,7 +116,7 @@
   </head>
   <body>
     <div id="pano"></div>
-   <!--  <div id="floating-panel"> -->
+    <!-- <div id="floating-panel"> -->
     <table>
       <tr>
         <td><b>Position</b></td><td id="position-cell">&nbsp;</td>
@@ -132,16 +132,20 @@
       </tr>
       <table id="links_table"></table>
     </table>
-  <!--   </div> -->
+    <!-- </div> -->
     <script>
     var user = "";
+    var latitude = -33.732; 
+    var longitude = 150.312; 
+    var heading = 270; 
+    var pitch = 0; 
       function initPano() {
         var panorama = new google.maps.StreetViewPanorama(
             document.getElementById('pano'), {
-              position: {lat: -13.163222, lng: -72.54509  },
+              position: {lat: latitude, lng: longitude  },
               pov: {
-                heading: 270,
-                pitch: 0
+                heading: heading,
+                pitch: pitch
               },
               visible: true
         });
@@ -171,6 +175,11 @@
         panorama.addListener('position_changed', function() {
             var positionCell = document.getElementById('position-cell');
             positionCell.firstChild.nodeValue = panorama.getPosition() + '';
+            
+            latitude = panorama.getPosition().lat();
+            longitude = panorama.getPosition().lng();
+            console.log("Lat: " + latitude);
+            console.log("Long: " + longitude); 
         });
 
         panorama.addListener('pov_changed', function() {
@@ -178,15 +187,30 @@
             var pitchCell = document.getElementById('pitch-cell');
             headingCell.firstChild.nodeValue = panorama.getPov().heading + '';
             pitchCell.firstChild.nodeValue = panorama.getPov().pitch + '';
+            
+            heading = panorama.getPov().heading;
+            pitch = panorama.getPov().pitch; 
+            console.log("Heading: " + heading);
+            console.log("Pitch: " + pitch);
         });
       }
       function start()
       {
        var simpleBoard = new DrawingBoard.Board('mural', {
         background: "rgba(0,0,0,0)",
-        webStorage: true 
+        webStorage: 'local' 
        }); 
        document.getElementById("showMural").checked = true;
+       GetLatLong();
+       //There are multiple ways to add a control to a board after its initialization:
+      simpleBoard.addControl('Download'); //if the DrawingBoard.Control.Download class exists
+
+      //or...
+      //var downloadControl = new DrawingBoard.Control.Download(customBoard).addToBoard();
+
+      //or...
+      //var downloadControl = new DrawingBoard.Control.Download(customBoard);
+      //customBoard.addControl(downloadControl); 
       }
 
       function showMuralCh()
@@ -313,17 +337,18 @@ var showSignUp = function() {
       function GetLatLong()
       {
         var geocoder = new google.maps.Geocoder();
-        var address = "699 South Mill Avenue Tempe, AZ 85281"//document.getElementById('textboxid').value;
+        var address = document.getElementById('locationSetting').value;//"15043 S. 47th Way Phoenix, AZ 85044";//"699 South Mill Avenue Tempe, AZ 85281"
 
         geocoder.geocode({ 'address': address }, function (results, status) {
 
             if (status == google.maps.GeocoderStatus.OK) {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
+                latitude = results[0].geometry.location.lat();
+                longitude = results[0].geometry.location.lng();
 
             }
             console.log(latitude);
             console.log(longitude);
+            initPano(); 
         });
       }
     </script>
@@ -331,16 +356,20 @@ var showSignUp = function() {
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
         async defer>
     </script>
-    <body onload='GetLatLong()' style="background-size:contain;" background="img/background.jpg">
+    <body onload='start()' style="background-size:contain;" background="img/background.jpg">
 
     <div id="loginBar" background="img/background.jpg">
-      <select style="float: left;">
+      <form style="float: left; ">
+         Location: <input type="text"  id= "locationSetting" name="location">
+      </form>
+      <!-- <select style="float: left;">
           <option value="volvo">Select a Location...</option>
           <option value="saab">Machu Picchu</option>
           <option value="opel">ASU</option>
           <option value="audi">Mount Rushmore</option>
-      </select>
-       <input type='checkbox' id='showMural' onchange='showMuralCh()' style="float: left;"> <label for='showMural' style="float: left;" class= "text"> Draw</label>
+      </select> -->
+      <div style="float: left; padding: 10px"><a href="javascript:GetLatLong()"  class="text">Submit</a></div>
+       <input type='checkbox' id='showMural' onchange='showMuralCh()' style="float: left; " > <label for='showMural' style="float: left;" class= "text"> Draw</label>
 	   <div style="float: right; padding: 10px"><a href="profile.html" target="_self" class="text">Profile</a></div>
         <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:showLoginModal()" class="text">Login</a></div>
         <div style="float: right; padding: 10px"><a id="signUpButton"   href="javascript:showSignUp()" class="text" >Sign Up </a></div>
