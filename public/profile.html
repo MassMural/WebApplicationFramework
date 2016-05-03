@@ -20,24 +20,6 @@
     <link rel="stylesheet" href="css/offline-language-english.css" type="text/css" />
     <link rel="stylesheet" href="css/drawingboard.css">
 
-	<link rel="apple-touch-icon" sizes="57x57" href="img/fav/apple-icon-57x57.png">
-	<link rel="apple-touch-icon" sizes="60x60" href="img/fav/apple-icon-60x60.png">
-	<link rel="apple-touch-icon" sizes="72x72" href="img/fav/apple-icon-72x72.png">
-	<link rel="apple-touch-icon" sizes="76x76" href="img/fav/apple-icon-76x76.png">
-	<link rel="apple-touch-icon" sizes="114x114" href="img/fav/apple-icon-114x114.png">
-	<link rel="apple-touch-icon" sizes="120x120" href="img/fav/apple-icon-120x120.png">
-	<link rel="apple-touch-icon" sizes="144x144" href="img/fav/apple-icon-144x144.png">
-	<link rel="apple-touch-icon" sizes="152x152" href="img/fav/apple-icon-152x152.png">
-	<link rel="apple-touch-icon" sizes="180x180" href="img/fav/apple-icon-180x180.png">
-	<link rel="icon" type="image/png" sizes="192x192"  href="img/fav/android-icon-192x192.png">
-	<link rel="icon" type="image/png" sizes="32x32" href="img/fav/favicon-32x32.png">
-	<link rel="icon" type="image/png" sizes="96x96" href="img/fav/favicon-96x96.png">
-	<link rel="icon" type="image/png" sizes="16x16" href="img/fav/favicon-16x16.png">
-	<link rel="manifest" href="/manifest.json">
-	<meta name="msapplication-TileColor" content="#ffffff">
-	<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-	<meta name="theme-color" content="#ffffff">
-
 
     <style>
       html, body {
@@ -76,11 +58,13 @@
       top: 30px;
       display: block;
       }
+	  
       #pano {
-        width: 100%;
-        height: 90%;
-        float: left;
-        top: 60px;
+		display: inline-block;
+		 width: 550px;
+		 height: 350px;
+		 margin: 20px;
+  	  	border:1px solid #000000;
       }
      /* #floating-panel {
         top: 100px;
@@ -124,19 +108,17 @@
         font-family: verdana;
 		top: 5%;
 	  }
-	 /* 
-	  #myCanvas
+	 
+	  .myCanvas
 	  {
 	  	position: absolute;
-      width: 1000px;
-      height: 500px;
+      	width: 500px;
+      	height: 100px;
 	    left: 50%;
-      top: 40%;
+      	top: 40%;
 	  	margin-right: -50%;
 	  	transform: translate(-50%, -50%);
-	  	border:1px solid #000000;
-	  	background: white;	
-	  }*/
+	  }
     </style>
   </head>
   <body>
@@ -158,7 +140,7 @@
 // pitch:"-0.5586640578842195"
 // user:"moo"
   function loadPics() {
-        var url = "./getPictures?user=mmm"; 
+        var url = "./getPictures?user=mfoote4@asu.edu"; 
         loadURL(url, function(data){
           var myPics = JSON.parse(data);
            console.log(myPics);
@@ -192,7 +174,6 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
         async defer>
     </script>
-    <div id="pano"></div>
     <body onload='start()' style="background-size:contain; background-repeat: no-repeat; background-position: center; " background="img/map.jpg">
 
     <div id="loginBar" background="img/background.jpg">
@@ -201,9 +182,16 @@
 
         <!--  <div text-align= "center;" display="table-cell;" vertical-align= "middle;" class="text;">Mass Mural</a></div> -->
     </div>
-     <h1 text-align= "center;" class="text" id="header">Profile</h1></br></br>
-	 <h4 id="header" class"text" style="top: 10%">Your Pictures</h4>
-
-	 <canvas id="myCanvas" width="500" height="250"></br></br></br>
+	<div style="padding:60px">
+     <h1 text-align= "center;" class="text" id="header">Profile</h1>
+	 <h4 id="header" class"text" style="top: 10%; padding: 50px">Your Pictures</h4>
+</div>
+<div style="text-align: center;">
+     <div id="pano"></div>
+ 	<div id="pano"></div>
+     <div id="pano"></div>
+ 	<div id="pano"></div>
+</div>
+	 <!-- <canvas id="pano" width="00" height="250"></br></br></br> -->
   </body>
 </html>
