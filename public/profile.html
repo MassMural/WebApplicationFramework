@@ -122,10 +122,13 @@
     </style>
   </head>
   <body>
-    
+     <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
+        async defer>
+    </script>
     </script>
     <script>
-	function start(){loadPics();}
+	function start(){user = localStorage["user"]; loadPics();}
    var user = "";
    var latitude = -33.732; 
    var longitude = 150.312; 
@@ -142,24 +145,37 @@
 // pitch:"-0.5586640578842195"
 // user:"moo"
   function loadPics() {
-        var url = "./getPictures?user=eee"; 
+     // Ply.dialog("alert", user);
+    if(user != " " || user != null){
+      $( document ).ready(function() {
+    var url = "./getPictures?user=" + user; 
+      // Ply.dialog("alert", url);
+      console.log(user);
         loadURL(url, function(data){
           myPics = JSON.parse(data);
            console.log(myPics);
             // user = "moo";
-			for (var i = 0; i < myPics.length; i++){
+      for (var i = 0; i < myPics.length; i++){
              latitude = parseFloat(myPics[i].lat); 
              longitude = parseFloat(myPics[i].long); 
              heading = parseFloat(myPics[i].heading); 
              pitch = parseFloat(myPics[i].pitch); 
              panoID = myPics[i].id; 
-			 $('<div id="' + i +'" class="view"></div>').prependTo($('#imageHolder'));
-		 }
-        }); 
+       $('<div id="' + i +'" class="view"></div>').prependTo($('#imageHolder'));
+      }
+        });
+}); 
+        $( window ).load(function() { console.log("hello: ");  initPano();})
     }
-    function UHH() {
-      //panorama.getPOV();
-      console.log("UHHH" + panorama.getPov().pitch);
+    else {
+      console.log(user);
+       Ply.dialog("alert", "You need to login!");
+    }
+     window.initPano();   
+    }
+    function test() {
+      user = localStorage["user"]
+      console.log("User: " + localStorage["user"]);
       panorama.setVisible(true);
     }
       function initPano() {
@@ -190,17 +206,87 @@
           );
           });
      }  
+     var showLoginModal = function()
+{
+   Ply.dialog("prompt", {
+      title: "Login",
+      form: {
+        email: "Email",
+        password: {hint: "Password", type: "password"}
+      }
+  })
+    .then((ui) => {
+    var data = ui.data;
+                        
+    //Get email and password
+    var tempUser = data.email;
+    var password = hex_md5(data.password);
+                
+    if (tempUser.length > 0 && password.length > 0) {
+    var url = "./login?user=" + tempUser + "&password=" + hex_md5(password);
+                    
+    loadURL(url, function(data) {
+    var res = data;
+                        
+    if (res == "1") {
+      user = tempUser;
+      localStorage["user"] = user;
+      console.log(localStorage["user"]);
+      login();
+    }
+    else {
+      Ply.dialog("alert", "Invalid email or password")
+      .then((ui) => {
+      showLoginModal();
+    })
+      .catch((ui) => {
+    //Pressed cancel
+    });
+   }
+    });
+    }
+   })
+   .catch((ui) => {
+    //Pressed cancel
+  });
+}
 
-    </script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
-        async defer>
+ var login = function() {
+  if (user != null) {
+                
+    //Change login button to logout
+    document.getElementById("loginButton").innerHTML = "Logout";
+    document.getElementById("loginButton").href = "javascript:logout()";
+                
+    //Hide sign up button
+    document.getElementById("signUpButton").style.visibility = "hidden";
+        
+  }
+}
+    
+var logout = function() {
+  //Clear out user
+  user = null;
+  //document.getElementById("username").innerHTML = "";
+            
+  //Change logout button to login
+  localStorage["user"] = user;
+  document.getElementById("loginButton").innerHTML = "Login";
+  document.getElementById("loginButton").href = "javascript:showLoginModal()";
+            
+  //Show sign up button
+  //document.getElementById("signUpButton").style.visibility = "visible";
+            
+  //Hide add button and feed list
+  location.reload(); 
+}
+
     </script>
     <body onload='start()' style="background-size:contain; background-repeat: no-repeat; background-position: center; " background="img/map.jpg">
 
     <div id="loginBar" background="img/background.jpg">
-      <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:UHH()" class="text">HIIII</a></div>
-       <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:initPano()" class="text">POOOP</a></div>
+      <div style="float: right; padding: 10px"><a href="javascript:test()" class="text">Test</a></div>
+       <div style="float: right; padding: 10px"><a  href="javascript:initPano()" class="text">Load My Drawings!</a></div>
 	   <div style="float: right; padding: 10px"><a href="index.html" target="_self" class="text">Home</a></div>
 
         <!--  <div text-align= "center;" display="table-cell;" vertical-align= "middle;" class="text;">Mass Mural</a></div> -->
