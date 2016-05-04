@@ -59,7 +59,7 @@
       display: block;
       }
 	  
-      #pano {
+      .view {
 		display: inline-block;
 		 width: 550px;
 		 height: 350px;
@@ -132,6 +132,8 @@
    var heading = 270; 
    var pitch = 0; 
    var panoID = 0; 
+   var panorama;
+   var myPics; 
 
 // heading:"26.859838573757504"
 // id: " q8L4NFDumyPQba7qAMUxgg"
@@ -140,9 +142,9 @@
 // pitch:"-0.5586640578842195"
 // user:"moo"
   function loadPics() {
-        var url = "./getPictures?user=mfoote4@asu.edu"; 
+        var url = "./getPictures?user=eee"; 
         loadURL(url, function(data){
-          var myPics = JSON.parse(data);
+          myPics = JSON.parse(data);
            console.log(myPics);
             // user = "moo";
 			for (var i = 0; i < myPics.length; i++){
@@ -151,28 +153,44 @@
              heading = parseFloat(myPics[i].heading); 
              pitch = parseFloat(myPics[i].pitch); 
              panoID = myPics[i].id; 
-			 $('<div id="pano"></div>').prependTo($('#imageHolder'));
+			 $('<div id="' + i +'" class="view"></div>').prependTo($('#imageHolder'));
 		 }
         }); 
     }
+    function UHH() {
+      //panorama.getPOV();
+      console.log("UHHH" + panorama.getPov().pitch);
+      panorama.setVisible(true);
+    }
       function initPano() {
-        console.log("PanoID: " + panoID);
-           console.log("lat: " + latitude);
-           console.log("long: " + longitude);
-           console.log("heading: " + heading);
-           console.log("pitch: " + pitch);
-
-        var panorama = new google.maps.StreetViewPanorama(
-			$("#pano").each(
-            document.getElementById(this), {
+        // console.log("PanoID: " + panoID);
+        // console.log("lat: " + latitude);
+        // console.log("long: " + longitude);
+        // console.log("heading: " + heading);
+        // console.log("pitch: " + pitch); 
+        $('.view').each(function(index, value) {
+             // console.log("Index: " + index);
+             // console.log($(this).context.id);
+             // console.log( document.getElementById($(this).context.id + ""));
+            latitude = parseFloat(myPics[index].lat); 
+            longitude = parseFloat(myPics[index].long); 
+            heading = parseFloat(myPics[index].heading); 
+            pitch = parseFloat(myPics[index].pitch); 
+            panoID = myPics[index].id; 
+            panorama = new google.maps.StreetViewPanorama(
+              
+            document.getElementById($(this).context.id + ""), {
               position: {lat: latitude, lng: longitude},
               pov: {
                 heading: heading,
                 pitch: pitch
               },
               visible: true
-        }));
-      }
+            }
+          );
+          });
+     }  
+
     </script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDv7i_UoYr8jaM0o6dbuCAOdwh5wLUep1k&callback=initPano"
@@ -181,6 +199,7 @@
     <body onload='start()' style="background-size:contain; background-repeat: no-repeat; background-position: center; " background="img/map.jpg">
 
     <div id="loginBar" background="img/background.jpg">
+      <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:UHH()" class="text">HIIII</a></div>
        <div style="float: right; padding: 10px"><a id="loginButton"  href="javascript:initPano()" class="text">POOOP</a></div>
 	   <div style="float: right; padding: 10px"><a href="index.html" target="_self" class="text">Home</a></div>
 

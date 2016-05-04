@@ -189,6 +189,13 @@
        GetLatLong();
        //There are multiple ways to add a control to a board after its initialization:
       simpleBoard.addControl('Download'); //if the DrawingBoard.Control.Download class exists
+     // console.log(simpleBoard.saveLocalStorage('mural'));
+      var img = simpleBoard.getImg(); 
+      img = str_replace(' ', '+', str_replace('data:image/png;base64,', '', img));
+      console.log(img);
+      // var imgInput = (simpleBoard.blankCanvas == img) ? '' : img;
+      // console.log($(this).find('input[name=image]').val( imgInput ));
+      //console.log(img);
 
       //or...
       //var downloadControl = new DrawingBoard.Control.Download(customBoard).addToBoard();
