@@ -136,7 +136,7 @@
             var panoCell = document.getElementById('pano-cell');
             panoCell.innerHTML = panorama.getPano();
             panoID = panorama.getPano();
-            console.log(panoID);
+            // console.log(panoID);
 
         });
 
@@ -163,8 +163,8 @@
             
             latitude = panorama.getPosition().lat();
             longitude = panorama.getPosition().lng();
-            console.log("Lat: " + latitude);
-            console.log("Long: " + longitude); 
+            // console.log("Lat: " + latitude);
+            // console.log("Long: " + longitude); 
         });
 
         panorama.addListener('pov_changed', function() {
@@ -175,8 +175,8 @@
             
             heading = panorama.getPov().heading;
             pitch = panorama.getPov().pitch; 
-            console.log("Heading: " + heading);
-            console.log("Pitch: " + pitch);
+            // console.log("Heading: " + heading);
+            // console.log("Pitch: " + pitch);
         });
       }
       function start()
@@ -185,14 +185,14 @@
         background: "rgba(0,0,0,0)",
         webStorage: 'local' 
        }); 
-       document.getElementById("showMural").checked = false;
+       document.getElementById("showMural").checked = true;
        GetLatLong();
        //There are multiple ways to add a control to a board after its initialization:
       simpleBoard.addControl('Download'); //if the DrawingBoard.Control.Download class exists
      // console.log(simpleBoard.saveLocalStorage('mural'));
-      var img = simpleBoard.getImg(); 
-      img = str_replace(' ', '+', str_replace('data:image/png;base64,', '', img));
-      console.log(img);
+      // var img = simpleBoard.getImg(); 
+      // img = str_replace(' ', '+', str_replace('data:image/png;base64,', '', img));
+      // console.log(img);
       // var imgInput = (simpleBoard.blankCanvas == img) ? '' : img;
       // console.log($(this).find('input[name=image]').val( imgInput ));
       //console.log(img);
@@ -343,8 +343,8 @@ var showSignUp = function() {
                 longitude = results[0].geometry.location.lng();
 
             }
-            console.log(latitude);
-            console.log(longitude);
+            // console.log(latitude);
+            // console.log(longitude);
             initPano(); 
         });
       }
